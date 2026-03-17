@@ -1,0 +1,14 @@
+
+[2026-03-17T17:32:54.758983] User 1 acquired quotation mutex 123
+[2026-03-17T17:32:54.792096] User 2 reserved 1 unit(s) of PRODUCT_X; remaining=4
+[2026-03-17T17:50:40.941668] User 2 reserved 1 unit(s) of PRODUCT_X; remaining=4
+[2026-03-17T17:50:42.925107] Reader 10 opened report monthly-sales
+[2026-03-17T17:50:42.937144] Reader 10 released report monthly-sales
+[2026-03-17T17:50:42.962905] Writer 99 acquired exclusive report access for monthly-sales
+[2026-03-17T17:50:42.975234] Writer 99 released exclusive report access for monthly-sales
+[2026-03-17T17:50:44.524901] Produced enquiry Enquiry-1773769844517
+[2026-03-17T17:50:44.543713] Consumed enquiry Enquiry-1773769844517
+[2026-03-17T17:50:49.903919] User 2 reserved 1 unit(s) of PRODUCT_X; remaining=3
+[2026-03-17T17:50:52.044192] User 1 acquired quotation mutex 123
+[2026-03-17T18:15:52.078146] User 2 reserved 1 unit(s) of PRODUCT_X; remaining=4
+[2026-03-17T18:15:54.293516] User 1 acquired quotation mutex 123
