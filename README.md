@@ -5,7 +5,7 @@ SalesCRM is a full-stack CRM application built phase by phase to demonstrate cor
 The final system combines:
 - CRM workflow management for customers, enquiries, quotations, sales orders, invoices, and reports
 - Flask backend with SQLite persistence
-- React frontend with a unified monitoring experience
+- React frontend with a unified monitoring experience and a custom branded UI
 - Phase-wise Operating System concept demonstrations tied to real CRM actions
 - A single-command launcher for the complete application
 
@@ -22,6 +22,7 @@ The final system combines:
 - Frontend: React.js, Axios, Bootstrap
 - OS/Analytics Libraries: multiprocessing, threading, concurrent.futures, psutil, matplotlib, pandas, numpy, networkx
 - Final Monitoring Layer: REST APIs with live polling and event-stream support
+- Database Engine: SQLite file database at `Backend/database/crm.db`
 
 ## Final Features
 
@@ -33,6 +34,17 @@ The final system combines:
 - Sales order creation
 - Invoice generation
 - Reporting and summary counts
+- Seeded demo data for live dashboards and first-run usability
+
+### UI and UX Features
+
+- Custom multi-page UI theme using Midnight Navy, Champagne, Dusty Rose, and Pearl White
+- Shared premium layout across CRM pages and OS monitor pages
+- Dynamic dashboard counters with animated metric changes
+- Live connection indicator with online/offline state
+- Change notifications for task queue updates, deadlock alerts, and thread activity
+- Light and dark theme support
+- Status pills, refined forms, cleaner tables, and monitor-specific panel styling
 
 ### OS Concepts Integrated
 
@@ -78,6 +90,16 @@ Code/
 |-- CRM.py
 `-- README.md
 ```
+
+## Visual Overview
+
+### System Architecture
+
+![System Architecture](images/Gemini_Generated_Image_r2oxy3r2oxy3r2ox.png)
+
+### User Flow
+
+![User Flow](images/Gemini_Generated_Image_2r1tpx2r1tpx2r1t.png)
 
 ## Phase Breakdown
 
@@ -143,6 +165,7 @@ Code/
 - Consolidated overview and system metrics
 - CSV export and performance report generation
 - Final integration analytics and documentation templates
+- Dynamic metric cards, module health badges, and live notifications
 
 ## Backend Modules
 
@@ -198,6 +221,26 @@ The project includes CRM tables and OS-monitoring tables, including:
 - `disk_requests`
 - `print_queue`
 
+## Database and Seed State
+
+- Primary database file: `Backend/database/crm.db`
+- Database engine: SQLite
+- ORM layer: Flask-SQLAlchemy
+- Initialization script: `Backend/database/init_db.py`
+- Seed script: `Backend/database/seed_data.py`
+
+The seed script populates the project with realistic deterministic demo data across CRM and OS-monitoring tables, including:
+
+- 5 users
+- 5 customers
+- 8 enquiries
+- 6 quotations
+- 4 sales orders
+- 4 invoices
+- seeded processes, tasks, threads, locks, resources, deadlock events, memory pages, cache stats, disk requests, and print queue data
+
+This ensures the unified dashboard shows non-zero values immediately after setup.
+
 ## Setup Instructions
 
 ### 1. Backend Setup
@@ -229,6 +272,15 @@ This starts:
 - Backend: `http://127.0.0.1:5000`
 - Frontend: `http://localhost:3000`
 
+If the database needs to be recreated manually:
+
+```powershell
+cd Backend
+.\venv\Scripts\activate
+python database\init_db.py
+python database\seed_data.py
+```
+
 ## Default Demo Access
 
 At the moment, the frontend is configured to go directly to the application dashboard using a demo user flow. Seeded credentials still exist in the database if authentication is re-enabled later.
@@ -252,10 +304,26 @@ The unified dashboard includes:
 
 It also supports:
 - Auto-refresh
+- animated counters and change highlights
+- live toast notifications for important state changes
 - Analytics generation
 - CSV export
 - Performance report export
 - Light and dark theme switching
+- online/offline backend health indication
+
+## Current Dynamic Behavior
+
+The frontend is dynamic and not static. At the moment it includes:
+
+- dashboard snapshot polling every 2 seconds
+- backend health polling every 10 seconds
+- animated value transitions on dashboard metric cards
+- trend indicators when values change
+- live notifications for queue changes, connectivity changes, thread activity, and deadlock events
+- auto-refresh on OS monitor pages
+
+This project currently uses polling-based live updates. A future enhancement would be true WebSocket or Socket.IO-based real-time streaming.
 
 ## Validation and Testing
 
@@ -313,6 +381,18 @@ Available helper scripts include:
 
 - `scripts/generate_final_artifacts.ps1`
   Helper for generating report artifacts and outputs
+
+## Recent Enhancements Incorporated
+
+The current codebase includes several refinements beyond the initial Phase 9 delivery:
+
+- richer idempotent seed data for integrated dashboard visibility
+- enhanced `/api/health` payload for live status monitoring
+- branded global UI theme applied across all CRM and OS pages
+- slimmer sidebar and cleaner shared page headers
+- improved forms, tables, and status indicators
+- polished OS monitor pages with shared premium panel styling
+- dynamic dashboard counters and live notifications
 
 ## What Still Needs Final Manual Completion
 
