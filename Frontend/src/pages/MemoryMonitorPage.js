@@ -125,8 +125,8 @@ function MemoryMonitorPage() {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">Memory Monitor</h1>
           <p className="text-muted mb-0">Paging, cache hit ratios, page replacement performance, and memory allocation strategies for the CRM workload.</p>
@@ -144,7 +144,7 @@ function MemoryMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Page Faults</div>
               <div className="display-6">{monitor.page_table?.page_faults ?? 0}</div>
@@ -153,7 +153,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Page Hits</div>
               <div className="display-6">{monitor.page_table?.page_hits ?? 0}</div>
@@ -162,7 +162,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Used Memory</div>
               <div className="display-6">{monitor.allocator?.used_memory ?? 0}</div>
@@ -171,7 +171,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Customer Cache Ratio</div>
               <div className="display-6">{(((monitor.cache?.customer?.hit_ratio ?? 0) * 100)).toFixed(0)}%</div>
@@ -183,7 +183,7 @@ function MemoryMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Paging Controls</h4>
               <Form.Group className="mb-3">
@@ -200,7 +200,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Replacement Simulation</h4>
               <Form.Group className="mb-3">
@@ -216,7 +216,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Allocator</h4>
               <Form.Group className="mb-3">
@@ -240,7 +240,7 @@ function MemoryMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={7}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Page Table</h4>
               <div className="table-responsive">
@@ -271,7 +271,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={5}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Recent Page Accesses</h4>
               <div className="small text-muted">
@@ -288,7 +288,7 @@ function MemoryMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={6}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Page Replacement Comparison</h4>
               <div className="table-responsive">
@@ -315,7 +315,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Cache Snapshot</h4>
               <div className="small">
@@ -332,7 +332,7 @@ function MemoryMonitorPage() {
 
       <Row className="g-4">
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Page Fault Graph</h4>
               <img alt="Page fault comparison" className="img-fluid rounded border" src={memoryApi.chartUrl("page-faults", chartVersion)} />
@@ -340,7 +340,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Cache Performance</h4>
               <img alt="Cache performance" className="img-fluid rounded border" src={memoryApi.chartUrl("cache-performance", chartVersion)} />
@@ -348,7 +348,7 @@ function MemoryMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Memory Usage</h4>
               <img alt="Memory usage" className="img-fluid rounded border" src={memoryApi.chartUrl("memory-usage", chartVersion)} />

@@ -61,7 +61,7 @@ The final system combines:
 ## Directory Structure
 
 ```text
-Code/
+OS_CP/
 |-- Backend/
 |   |-- app.py
 |   |-- requirements.txt
@@ -69,6 +69,7 @@ Code/
 |   |-- models/
 |   |-- routes/
 |   `-- utils/
+|-- Documentation/
 |-- Frontend/
 |   |-- package.json
 |   |-- public/
@@ -85,7 +86,7 @@ Code/
 |-- Phase_7_Memory_Management/
 |-- Phase_8_IO_Management/
 |-- Phase_9_Integration_Dashboard/
-|-- Documentation/
+|-- images/
 |-- scripts/
 |-- CRM.py
 `-- README.md

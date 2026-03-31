@@ -80,8 +80,8 @@ function SyncMonitorPage() {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">Synchronization Monitor</h1>
           <p className="text-muted mb-0">Mutex, semaphore, reader-writer, producer-consumer, and race-condition visibility in one dashboard.</p>
@@ -100,7 +100,7 @@ function SyncMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={7}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Active Locks</h4>
               <div className="table-responsive">
@@ -133,7 +133,7 @@ function SyncMonitorPage() {
           </Card>
         </Col>
         <Col lg={5}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Lock Wait Queue</h4>
               <div className="table-responsive">
@@ -165,7 +165,7 @@ function SyncMonitorPage() {
 
       <Row className="g-4">
         <Col lg={6}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Contention Analysis</h4>
               <div className="small text-muted">
@@ -177,7 +177,7 @@ function SyncMonitorPage() {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Race Condition Demo</h4>
               {raceDemo ? (

@@ -108,8 +108,8 @@ function DiskSchedulerMonitorPage() {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">Disk Scheduler Monitor</h1>
           <p className="text-muted mb-0">Disk request scheduling, seek time comparison, I/O buffering, and invoice/report print spooling in one dashboard.</p>
@@ -127,7 +127,7 @@ function DiskSchedulerMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Current Head</div>
               <div className="display-6">{monitor.current_head}</div>
@@ -136,7 +136,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Queued Requests</div>
               <div className="display-6">{monitor.requests.length}</div>
@@ -145,7 +145,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Buffers In Use</div>
               <div className="display-6">{(monitor.buffer_pool?.buffers || []).filter((item) => item.status === "ALLOCATED").length}</div>
@@ -154,7 +154,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={3}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <div className="text-muted">Print Queue</div>
               <div className="display-6">{monitor.print_queue.length}</div>
@@ -166,7 +166,7 @@ function DiskSchedulerMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Disk Request Controls</h4>
               <Form.Group className="mb-3">
@@ -191,7 +191,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">I/O Buffer Pool</h4>
               <Form.Group className="mb-3">
@@ -215,7 +215,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Print Spooling</h4>
               <Form.Group className="mb-3">
@@ -238,7 +238,7 @@ function DiskSchedulerMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={7}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Request Queue</h4>
               <div className="table-responsive">
@@ -267,7 +267,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={5}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Seek Time Comparison</h4>
               <div className="table-responsive">
@@ -297,7 +297,7 @@ function DiskSchedulerMonitorPage() {
 
       <Row className="g-4">
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Comparison Chart</h4>
               <img alt="Seek comparison" className="img-fluid rounded border" src={ioApi.chartUrl("comparison", chartVersion)} />
@@ -305,7 +305,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">SSTF Movement</h4>
               <img alt="SSTF movement" className="img-fluid rounded border" src={ioApi.chartUrl("sstf", chartVersion)} />
@@ -313,7 +313,7 @@ function DiskSchedulerMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">LOOK Movement</h4>
               <img alt="LOOK movement" className="img-fluid rounded border" src={ioApi.chartUrl("look", chartVersion)} />

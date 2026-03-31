@@ -105,8 +105,8 @@ function SchedulerDashboardPage() {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">CPU Scheduler Dashboard</h1>
           <p className="text-muted mb-0">FCFS, SJF, Priority, and Round Robin applied to CRM task management.</p>
@@ -122,7 +122,7 @@ function SchedulerDashboardPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Add Task</h4>
               <Form onSubmit={addTask}>
@@ -153,7 +153,7 @@ function SchedulerDashboardPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Run Scheduler</h4>
               <Form.Group className="mb-3">
@@ -179,7 +179,7 @@ function SchedulerDashboardPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <h4 className="mb-3">Latest Metrics</h4>
               {result ? (
@@ -200,7 +200,7 @@ function SchedulerDashboardPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={8}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Current Task Queue</h4>
               <div className="table-responsive">
@@ -233,7 +233,7 @@ function SchedulerDashboardPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Gantt Chart</h4>
               {result ? (
@@ -252,7 +252,7 @@ function SchedulerDashboardPage() {
 
       <Row className="g-4">
         <Col lg={7}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Performance Comparison</h4>
               <div className="table-responsive">
@@ -285,7 +285,7 @@ function SchedulerDashboardPage() {
           </Card>
         </Col>
         <Col lg={5}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Execution Timeline</h4>
               <div className="scheduler-timeline-list">
