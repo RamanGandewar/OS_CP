@@ -91,6 +91,16 @@ Code/
 `-- README.md
 ```
 
+## Visual Overview
+
+### System Architecture
+
+![System Architecture](images/Gemini_Generated_Image_r2oxy3r2oxy3r2ox.png)
+
+### User Flow
+
+![User Flow](images/Gemini_Generated_Image_2r1tpx2r1tpx2r1t.png)
+
 ## Phase Breakdown
 
 ### Phase 1 - Basic CRM
