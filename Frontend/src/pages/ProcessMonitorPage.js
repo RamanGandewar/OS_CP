@@ -81,8 +81,8 @@ function ProcessMonitorPage({ user }) {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">Process Monitor</h1>
           <p className="text-muted mb-0">Live OS process tracking for the CRM. Current user: {user?.username}</p>
@@ -98,7 +98,7 @@ function ProcessMonitorPage({ user }) {
 
       <Row className="g-4 mb-4">
         <Col md={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <p className="text-muted mb-2">Active Processes</p>
               <h2>{monitor.active_count}</h2>
@@ -107,7 +107,7 @@ function ProcessMonitorPage({ user }) {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <p className="text-muted mb-2">Your Session PID</p>
               <h2>{monitor.processes.find((item) => item.username === user?.username && item.task_type === "session" && item.state !== "TERMINATED")?.pid || "N/A"}</h2>
@@ -116,7 +116,7 @@ function ProcessMonitorPage({ user }) {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body className="d-flex align-items-center justify-content-between gap-3">
               <div>
                 <p className="text-muted mb-2">State Pie Chart</p>
@@ -134,7 +134,7 @@ function ProcessMonitorPage({ user }) {
 
       <Row className="g-4">
         <Col xl={8}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Tracked Processes</h4>
               <div className="table-responsive">
@@ -169,7 +169,7 @@ function ProcessMonitorPage({ user }) {
           </Card>
         </Col>
         <Col xl={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">State Transition Log</h4>
               <div className="process-log-list">

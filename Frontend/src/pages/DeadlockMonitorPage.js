@@ -101,8 +101,8 @@ function DeadlockMonitorPage() {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">Deadlock Monitor</h1>
           <p className="text-muted mb-0">Resource allocation graph, cycle detection, Banker&apos;s safety checks, and recovery actions for CRM resources.</p>
@@ -121,7 +121,7 @@ function DeadlockMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <h4 className="mb-3">Detection Status</h4>
               <div className="display-6">{state.visualization?.deadlock ? "DEADLOCK" : "SAFE"}</div>
@@ -131,7 +131,7 @@ function DeadlockMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <h4 className="mb-3">Available Resources</h4>
               <div className="small">
@@ -145,7 +145,7 @@ function DeadlockMonitorPage() {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <h4 className="mb-3">Banker&apos;s Result</h4>
               {bankerResult ? (
@@ -164,7 +164,7 @@ function DeadlockMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col lg={7}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Resource Allocation State</h4>
               <div className="table-responsive">
@@ -189,7 +189,7 @@ function DeadlockMonitorPage() {
           </Card>
         </Col>
         <Col lg={5}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Resource Allocation Graph</h4>
               <img
@@ -202,7 +202,7 @@ function DeadlockMonitorPage() {
         </Col>
       </Row>
 
-      <Card className="shadow-sm">
+      <Card className="shadow-sm monitor-panel-card">
         <Card.Body>
           <h4 className="mb-3">Deadlock Events</h4>
           <div className="table-responsive">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/Layout";
@@ -18,12 +18,22 @@ import DiskSchedulerMonitorPage from "./pages/DiskSchedulerMonitorPage";
 import SyncMonitorPage from "./pages/SyncMonitorPage";
 
 function App() {
+  const [theme, setTheme] = useState("light");
   const user = { username: "Demo User", role: "admin" };
+
+  useEffect(() => {
+    document.body.classList.toggle("theme-dark", theme === "dark");
+    document.body.classList.toggle("theme-light", theme === "light");
+    return () => {
+      document.body.classList.remove("theme-dark");
+      document.body.classList.remove("theme-light");
+    };
+  }, [theme]);
 
   return (
     <Routes>
       <Route path="/" element={<Layout user={user} />}>
-        <Route index element={<DashboardPage />} />
+        <Route index element={<DashboardPage theme={theme} setTheme={setTheme} />} />
         <Route path="customers" element={<CustomersPage />} />
         <Route path="enquiries" element={<EnquiriesPage />} />
         <Route path="quotations" element={<QuotationsPage />} />

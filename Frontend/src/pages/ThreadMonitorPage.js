@@ -61,8 +61,8 @@ function ThreadMonitorPage() {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div className="monitor-page">
+      <div className="monitor-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 className="mb-1">Thread Monitor</h1>
           <p className="text-muted mb-0">Tracks daemon, worker, timer, and application threads with thread-safe monitoring.</p>
@@ -79,7 +79,7 @@ function ThreadMonitorPage() {
 
       <Row className="g-4 mb-4">
         <Col md={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <p className="text-muted mb-2">Active Threads</p>
               <h2>{monitor.active_count || 0}</h2>
@@ -88,7 +88,7 @@ function ThreadMonitorPage() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <p className="text-muted mb-2">Native Thread Count</p>
               <h2>{monitor.native_threads || 0}</h2>
@@ -97,7 +97,7 @@ function ThreadMonitorPage() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="shadow-sm h-100">
+          <Card className="shadow-sm h-100 monitor-stat-card">
             <Card.Body>
               <p className="text-muted mb-2">Thread Pool Utilization</p>
               <h2>{monitor.thread_pool_utilization?.utilization_percent || 0}%</h2>
@@ -111,7 +111,7 @@ function ThreadMonitorPage() {
 
       <Row className="g-4">
         <Col xl={8}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Active Threads List</h4>
               <div className="table-responsive">
@@ -146,7 +146,7 @@ function ThreadMonitorPage() {
           </Card>
         </Col>
         <Col xl={4}>
-          <Card className="shadow-sm">
+          <Card className="shadow-sm monitor-panel-card">
             <Card.Body>
               <h4 className="mb-3">Status Distribution</h4>
               <div className="small text-muted">

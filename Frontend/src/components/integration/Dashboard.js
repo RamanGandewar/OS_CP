@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Alert, Badge, Button, Card, Col, Row, Tab, Tabs } from "react-bootstrap";
 
 import ProcessMonitor from "./ProcessMonitor";
@@ -10,12 +10,12 @@ import MemoryView from "./MemoryView";
 import IOView from "./IOView";
 
 const CARD_META = {
-  "Active Processes": { accent: "#3B82F6", icon: "PR" },
-  "Task Queue": { accent: "#8B5CF6", icon: "TS" },
-  Threads: { accent: "#10B981", icon: "TH" },
-  "I/O Queue": { accent: "#F59E0B", icon: "IO" },
-  "Page Faults": { accent: "#EF4444", icon: "PF" },
-  "Cache Ratio": { accent: "#14B8A6", icon: "CR" },
+  "Active Processes": { accent: "#192A56", icon: "PR" },
+  "Task Queue": { accent: "#EDA6A3", icon: "TS" },
+  Threads: { accent: "#F7D794", icon: "TH" },
+  "I/O Queue": { accent: "#EDA6A3", icon: "IO" },
+  "Page Faults": { accent: "#192A56", icon: "PF" },
+  "Cache Ratio": { accent: "#F7D794", icon: "CR" },
 };
 
 function formatCacheRatio(value) {
@@ -35,6 +35,40 @@ function getTrend(current, previous) {
   return { direction: "flat", label: "= steady" };
 }
 
+function AnimatedValue({ value, suffix = "", decimals = 0 }) {
+  const [displayValue, setDisplayValue] = useState(value);
+  const previousValue = useRef(value);
+
+  useEffect(() => {
+    const start = previousValue.current;
+    const end = value;
+    previousValue.current = value;
+
+    if (start === end) {
+      setDisplayValue(end);
+      return undefined;
+    }
+
+    const duration = 450;
+    const startedAt = performance.now();
+    let frameId;
+
+    const animate = (timestamp) => {
+      const progress = Math.min((timestamp - startedAt) / duration, 1);
+      const next = start + (end - start) * progress;
+      setDisplayValue(next);
+      if (progress < 1) {
+        frameId = window.requestAnimationFrame(animate);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [value]);
+
+  return `${displayValue.toFixed(decimals)}${suffix}`;
+}
+
 function ModuleStatusBadge({ label, status }) {
   return (
     <div className="module-status-row">
@@ -44,20 +78,24 @@ function ModuleStatusBadge({ label, status }) {
   );
 }
 
-function MetricCard({ label, value, rawValue, previousValue }) {
+function MetricCard({ label, rawValue, previousValue, formatter }) {
   const meta = CARD_META[label];
   const trend = getTrend(rawValue, previousValue);
   const isEmpty = rawValue === 0;
+  const isChanged = previousValue !== null && previousValue !== undefined && rawValue !== previousValue;
 
   return (
     <Col md={6} xl={4}>
-      <Card className="dashboard-card dashboard-metric-card border-0 shadow-sm h-100" style={{ "--card-accent": meta.accent }}>
+      <Card
+        className={`dashboard-card dashboard-metric-card border-0 shadow-sm h-100 ${isChanged ? "metric-card-changed" : ""}`}
+        style={{ "--card-accent": meta.accent }}
+      >
         <Card.Body>
           <div className="metric-card-header">
             <span className="metric-icon">{meta.icon}</span>
             <div>
               <div className="text-muted mb-1">{label}</div>
-              <div className="display-6">{value}</div>
+              <div className="display-6">{formatter(rawValue)}</div>
             </div>
           </div>
           <div className="metric-card-footer">
@@ -109,43 +147,43 @@ function OverviewTab({
       label: "Active Processes",
       rawValue: health?.active_processes ?? overview.active_processes ?? 0,
       previousValue: previousOverview.active_processes,
-      value: health?.active_processes ?? overview.active_processes ?? 0,
+      formatter: (value) => <AnimatedValue value={Number(value || 0)} />,
     },
     {
       label: "Task Queue",
       rawValue: health?.task_queue ?? overview.task_queue_size ?? 0,
       previousValue: previousOverview.task_queue_size,
-      value: health?.task_queue ?? overview.task_queue_size ?? 0,
+      formatter: (value) => <AnimatedValue value={Number(value || 0)} />,
     },
     {
       label: "Threads",
       rawValue: health?.threads ?? overview.thread_count ?? 0,
       previousValue: previousOverview.thread_count,
-      value: health?.threads ?? overview.thread_count ?? 0,
+      formatter: (value) => <AnimatedValue value={Number(value || 0)} />,
     },
     {
       label: "I/O Queue",
       rawValue: health?.io_queue ?? overview.io_queue_size ?? 0,
       previousValue: previousOverview.io_queue_size,
-      value: health?.io_queue ?? overview.io_queue_size ?? 0,
+      formatter: (value) => <AnimatedValue value={Number(value || 0)} />,
     },
     {
       label: "Page Faults",
       rawValue: health?.page_faults ?? overview.memory_usage?.page_faults ?? 0,
       previousValue: previousOverview.memory_usage?.page_faults,
-      value: health?.page_faults ?? overview.memory_usage?.page_faults ?? 0,
+      formatter: (value) => <AnimatedValue value={Number(value || 0)} />,
     },
     {
       label: "Cache Ratio",
       rawValue: health?.cache_ratio ?? overview.memory_usage?.cache_hit_ratio ?? 0,
       previousValue: previousOverview.memory_usage?.cache_hit_ratio,
-      value: formatCacheRatio(health?.cache_ratio ?? overview.memory_usage?.cache_hit_ratio ?? 0),
+      formatter: (value) => <AnimatedValue value={Number((value || 0) * 100)} suffix="%" />,
     },
   ];
   const moduleStatuses = buildModuleStatuses(snapshot, health, isLive);
 
   return (
-    <div>
+    <div className="dashboard-fade-in">
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h2 className="mb-1">Unified OS Monitoring Dashboard</h2>
