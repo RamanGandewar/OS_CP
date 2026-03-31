@@ -129,3 +129,7 @@ export const dashboardApi = {
   generateAnalytics: () => client.post("/dashboard/analytics/generate"),
   stream: () => client.get("/dashboard/stream"),
 };
+
+export const healthApi = {
+  check: () => client.get("/health"),
+};

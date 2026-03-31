@@ -28,7 +28,8 @@ function Layout({ user }) {
             <span className="crm-brand-mark">SC</span>
             <span className="crm-brand-copy">
               <span className="crm-brand-title">SalesCRM</span>
-              <span className="crm-brand-subtitle">Operating Systems Enabled CRM</span>
+              <span className="crm-brand-version">v1.0 | OS Edition</span>
+              <span className="crm-brand-subtitle">OPERATING SYSTEMS ENABLED CRM</span>
             </span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="main-nav" />

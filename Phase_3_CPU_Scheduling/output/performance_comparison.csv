@@ -1,5 +1,5 @@
 ,average_waiting_time,average_turnaround_time,average_response_time,cpu_utilization,throughput
-FCFS,0.0,2.0,0.0,100.0,0.5
-SJF,0.0,2.0,0.0,100.0,0.5
-PRIORITY,0.0,2.0,0.0,100.0,0.5
-RR,0.0,2.0,0.0,100.0,0.5
+FCFS,98.9,103.83,98.9,100.0,0.203
+SJF,75.49,80.41,75.49,100.0,0.203
+PRIORITY,97.78,102.71,97.78,100.0,0.203
+RR,135.51,140.44,40.0,100.0,0.203

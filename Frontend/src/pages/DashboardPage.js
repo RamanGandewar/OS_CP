@@ -2,30 +2,53 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 
 import IntegrationDashboard from "../components/integration/Dashboard";
-import { dashboardApi } from "../utils/api";
+import { dashboardApi, healthApi } from "../utils/api";
 
 function DashboardPage() {
   const [snapshot, setSnapshot] = useState(null);
+  const [previousSnapshot, setPreviousSnapshot] = useState(null);
   const [error, setError] = useState("");
   const [theme, setTheme] = useState("light");
+  const [isLive, setIsLive] = useState(true);
+  const [health, setHealth] = useState(null);
 
   const loadSnapshot = () => {
     dashboardApi
       .snapshot()
       .then((response) => {
+        setPreviousSnapshot(snapshot);
         setSnapshot(response.data);
         setError("");
+        setIsLive(true);
       })
       .catch(() => {
-        setSnapshot(null);
         setError("Backend is not reachable right now. Start the API and refresh.");
+        setIsLive(false);
+      });
+  };
+
+  const loadHealth = () => {
+    healthApi
+      .check()
+      .then((response) => {
+        setHealth(response.data);
+        setIsLive(true);
+      })
+      .catch(() => {
+        setHealth(null);
+        setIsLive(false);
       });
   };
 
   useEffect(() => {
     loadSnapshot();
-    const timer = window.setInterval(loadSnapshot, 2000);
-    return () => window.clearInterval(timer);
+    loadHealth();
+    const snapshotTimer = window.setInterval(loadSnapshot, 2000);
+    const healthTimer = window.setInterval(loadHealth, 10000);
+    return () => {
+      window.clearInterval(snapshotTimer);
+      window.clearInterval(healthTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -51,6 +74,9 @@ function DashboardPage() {
       {snapshot && (
         <IntegrationDashboard
           snapshot={snapshot}
+          previousSnapshot={previousSnapshot}
+          health={health}
+          isLive={isLive}
           theme={theme}
           onRefresh={loadSnapshot}
           onExportCsv={exportCsv}

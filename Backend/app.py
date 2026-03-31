@@ -11,7 +11,7 @@ if str(ROOT_DIR) not in sys.path:
 if str(BACKEND_DIR) not in sys.path:
     sys.path.append(str(BACKEND_DIR))
 
-from Backend.models import db
+from Backend.models import CacheStat, DiskRequest, MemoryPage, ProcessRecord, TaskRecord, ThreadRecord, db
 from Backend.routes.auth import auth_bp
 from Backend.routes.crm import crm_bp
 from Backend.routes.report import report_bp
@@ -52,7 +52,20 @@ def create_app():
 
     @app.route("/api/health", methods=["GET"])
     def health_check():
-        return jsonify({"status": "ok", "message": "SalesCRM backend is running"})
+        latest_cache = CacheStat.query.order_by(CacheStat.timestamp.desc(), CacheStat.id.desc()).first()
+        cache_ratio = round(latest_cache.hit_ratio, 2) if latest_cache else 0.0
+        page_faults = MemoryPage.query.filter(MemoryPage.access_count > 0, MemoryPage.in_memory.is_(False)).count()
+        return jsonify(
+            {
+                "status": "ok",
+                "active_processes": ProcessRecord.query.filter(ProcessRecord.state != "TERMINATED").count(),
+                "task_queue": TaskRecord.query.filter(TaskRecord.status != "COMPLETED").count(),
+                "threads": ThreadRecord.query.filter(~ThreadRecord.status.in_(["TERMINATED", "COMPLETED", "FAILED"])).count(),
+                "io_queue": DiskRequest.query.count(),
+                "page_faults": page_faults,
+                "cache_ratio": cache_ratio,
+            }
+        )
 
     return app
 

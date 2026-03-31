@@ -4,16 +4,12 @@ from Backend.models import (
     CacheStat,
     Customer,
     DeadlockEvent,
-    DiskRequest,
     Enquiry,
     Invoice,
-    LockQueueEntry,
-    LockRecord,
     MemoryPage,
-    PrintQueueJob,
-    ProcessLog,
     ProcessRecord,
     Quotation,
+    ResourceAllocationRecord,
     SalesOrder,
     TaskRecord,
     ThreadRecord,
@@ -45,22 +41,34 @@ class UnifiedDashboard:
         deadlock_state["events"] = [event.to_dict() for event in DeadlockEvent.query.order_by(DeadlockEvent.id.desc()).limit(20).all()]
         memory_payload = memory_monitor.get_monitor_payload()
         io_payload = io_manager.get_monitor_payload()
+        seeded_page_faults = MemoryPage.query.filter(MemoryPage.access_count > 0, MemoryPage.in_memory.is_(False)).count()
+        seeded_loaded_pages = MemoryPage.query.filter(MemoryPage.in_memory.is_(True)).count()
+        latest_cache = CacheStat.query.order_by(CacheStat.timestamp.desc(), CacheStat.id.desc()).first()
+        cache_ratio = (
+            memory_payload.get("cache", {}).get("customer", {}).get("hit_ratio")
+            or (latest_cache.hit_ratio if latest_cache else 0)
+        )
+        task_queue_size = TaskRecord.query.filter(TaskRecord.status != "COMPLETED").count()
+        active_processes = ProcessRecord.query.filter(ProcessRecord.state != "TERMINATED").count()
+        active_threads = ThreadRecord.query.filter(~ThreadRecord.status.in_(["TERMINATED", "COMPLETED", "FAILED"])).count()
+        io_queue_size = len(io_payload.get("requests", []))
 
         overview = {
             "uptime_seconds": round((datetime.utcnow() - self.started_at).total_seconds(), 2),
-            "active_processes": process_payload.get("active_count", 0),
-            "task_queue_size": len([task for task in scheduler_queue if task["status"] != "COMPLETED"]),
-            "thread_count": thread_payload.get("active_count", 0),
+            "active_processes": active_processes or process_payload.get("active_count", 0),
+            "task_queue_size": task_queue_size or len([task for task in scheduler_queue if task["status"] != "COMPLETED"]),
+            "thread_count": active_threads or thread_payload.get("active_count", 0),
             "resource_utilization": {
                 "active_locks": len(sync_payload.get("active_locks", [])),
                 "deadlock_resources": len(deadlock_state.get("resources", [])),
+                "resource_allocations": ResourceAllocationRecord.query.count(),
             },
             "memory_usage": {
-                "loaded_pages": len(memory_payload.get("page_table", {}).get("loaded_pages", [])),
-                "page_faults": memory_payload.get("page_table", {}).get("page_faults", 0),
-                "cache_hit_ratio": memory_payload.get("cache", {}).get("customer", {}).get("hit_ratio", 0),
+                "loaded_pages": len(memory_payload.get("page_table", {}).get("loaded_pages", [])) or seeded_loaded_pages,
+                "page_faults": memory_payload.get("page_table", {}).get("page_faults", 0) or seeded_page_faults,
+                "cache_hit_ratio": cache_ratio,
             },
-            "io_queue_size": len(io_payload.get("requests", [])),
+            "io_queue_size": io_queue_size,
             "crm_counts": {
                 "customers": Customer.query.count(),
                 "enquiries": Enquiry.query.count(),
@@ -95,4 +103,3 @@ class UnifiedDashboard:
             "analytics": self.analytics_generator.summary(),
             "performance_report": self.performance_report.summary(),
         }
-

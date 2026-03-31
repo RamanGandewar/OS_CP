@@ -1,11 +1,11 @@
 section,metric,value
-overview,uptime_seconds,3.42
+overview,uptime_seconds,2069.74
 overview,active_processes,0
-overview,task_queue_size,0
-overview,thread_count,0
-overview,resource_utilization,"{""active_locks"": 0, ""deadlock_resources"": 0}"
+overview,task_queue_size,38
+overview,thread_count,12
+overview,resource_utilization,"{""active_locks"": 0, ""deadlock_resources"": 4}"
 overview,memory_usage,"{""loaded_pages"": 0, ""page_faults"": 0, ""cache_hit_ratio"": 0}"
 overview,io_queue_size,5
 overview,crm_counts,"{""customers"": 5, ""enquiries"": 5, ""quotations"": 5, ""orders"": 5, ""invoices"": 5}"
 analytics,summary,"{""processes_created"": 0, ""tasks_executed"": 0, ""deadlocks_detected"": 0, ""disk_requests"": 5, ""latest_cache_hit_ratio"": 0}"
-performance_report,summary,"{""total_processes_created"": 0, ""total_tasks_executed"": 0, ""total_threads_tracked"": 0, ""synchronization_conflicts"": 0, ""page_fault_rate"": 0.0, ""cache_efficiency"": 0, ""disk_io_throughput"": 5}"
+performance_report,summary,"{""total_processes_created"": 0, ""total_tasks_executed"": 0, ""total_threads_tracked"": 12, ""synchronization_conflicts"": 0, ""page_fault_rate"": 0.0, ""cache_efficiency"": 0, ""disk_io_throughput"": 5}"
